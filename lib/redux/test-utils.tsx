@@ -20,31 +20,3 @@ export function renderWithProviders(
 
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
-
-/**
- * Find a PUT or POST request in fetch mock or find it by url
- *
- * @param {string} url - finds request with given url
- * @param {boolean} withUrl - adds the requests url path to the return object
- */
-export const getMockPostOrPutRequest = (options?: {
-  url?: string;
-  withUrl?: boolean;
-}) => {
-  const request = fetchMock.mock.calls.find(
-    (call) =>
-      call[0] &&
-      typeof call[0] !== "string" &&
-      (options?.url
-        ? call[0].url.includes(options?.url)
-        : ["PUT", "POST", "PATCH", "DELETE"].includes(call[0].method))
-  )?.[0];
-  if (!request || typeof request === "string")
-    throw Error("mock request not found");
-
-  return {
-    method: request.method,
-    body: request.body ? JSON.parse(request.body.toString()) : undefined,
-    ...(options?.withUrl && { url: request.url }),
-  };
-};
