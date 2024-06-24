@@ -1,6 +1,6 @@
 import React from "react";
 
-interface IFeedPostProps {
+export interface IFeedPostProps {
   username: string;
   body: string;
   isHighlighted: boolean;

@@ -3,7 +3,6 @@ export interface IFeedPost {
   title: string;
   body: string;
   userId: number;
-  username: string;
 }
 
 export interface IUser {
