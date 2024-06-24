@@ -14,7 +14,7 @@ npm run dev
 Alternatively try the script
 ```bash
 chmod +x setup.sh
-setup.sh
+./setup.sh
 ```
 
 Test
