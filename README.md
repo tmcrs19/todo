@@ -2,7 +2,7 @@
 Vercel deployment has now simulated websocket event.
 https://posts-126qrnek2-tmcrs19s-projects.vercel.app/
 
-First, run the development server:
+How to run locally:
 
 ```bash
 nvm use
