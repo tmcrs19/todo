@@ -1,5 +1,5 @@
 ## Getting Started
-Vercel deployment has now simulated websocket event.
+Vercel deployment
 https://posts-126qrnek2-tmcrs19s-projects.vercel.app/
 
 How to run locally:
