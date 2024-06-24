@@ -1,6 +1,12 @@
 import { Footer } from "@faceit/components/Footer";
 import { Header } from "@faceit/components/Header";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Feed Preview",
+  
+};
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

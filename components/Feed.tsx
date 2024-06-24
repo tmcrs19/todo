@@ -43,7 +43,7 @@ export const Feed: React.FC = () => {
       setHighlightedPostId(newPost.id);
       setTimeout(() => {
         setHighlightedPostId(null);
-      }, 5000); // Highlight for 5 seconds
+      }, 3000); // Highlight for 5 seconds
     });
 
     return () => {

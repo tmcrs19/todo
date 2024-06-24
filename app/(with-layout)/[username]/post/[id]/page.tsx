@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import type { Metadata, ResolvingMetadata } from "next";
 
 interface PostPageProps {
   params: {
@@ -13,6 +14,7 @@ const fetchPost = async (postId: string) => {
     const res = await fetch(
       `https://jsonplaceholder.typicode.com/posts/${postId}`
     );
+    console.log("res", "wtf?");
     if (!res.ok) {
       return null;
     }
@@ -21,6 +23,16 @@ const fetchPost = async (postId: string) => {
     return null;
   }
 };
+
+export async function generateMetadata({
+  params,
+}: PostPageProps): Promise<Metadata> {
+  const post = await fetchPost(params.id);
+
+  return {
+    title: post ? `${params.username}: ${post.body}` : "Post not found",
+  };
+}
 
 const PostPage: React.FC<PostPageProps> = async ({ params }) => {
   const { username, id } = params;
