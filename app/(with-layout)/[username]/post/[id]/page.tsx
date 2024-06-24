@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import type { Metadata, ResolvingMetadata } from "next";
+import { getData } from "@faceit/lib/getData";
+import { IFeedPost } from "@faceit/lib/redux/api/feed";
 
 interface PostPageProps {
   params: {
@@ -9,25 +11,10 @@ interface PostPageProps {
   };
 }
 
-const fetchPost = async (postId: string) => {
-  try {
-    const res = await fetch(
-      `https://jsonplaceholder.typicode.com/posts/${postId}`
-    );
-    console.log("res", "wtf?");
-    if (!res.ok) {
-      return null;
-    }
-    return res.json();
-  } catch (error) {
-    return null;
-  }
-};
-
 export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
-  const post = await fetchPost(params.id);
+  const post = await getData<IFeedPost>(`/posts/${params.id}`);
 
   return {
     title: post ? `${params.username}: ${post.body}` : "Post not found",
@@ -36,7 +23,7 @@ export async function generateMetadata({
 
 const PostPage: React.FC<PostPageProps> = async ({ params }) => {
   const { username, id } = params;
-  const post = await fetchPost(id);
+  const post = await getData<IFeedPost>(`/posts/${id}`);
 
   if (!post) {
     return <p className="text-center">No such post exists</p>;

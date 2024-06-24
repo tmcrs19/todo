@@ -18,7 +18,7 @@ export const feedApi = baseApi.injectEndpoints({
     }),
     getUsers: builder.query<IUser[], void>({
       query: () => "users",
-      providesTags: ["FeedPosts"],
+      providesTags: ["Users"],
     }),
   }),
 });

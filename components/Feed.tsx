@@ -10,16 +10,17 @@ import Link from "next/link";
 import {
   setCurrentPage,
   setPostsAndUsers,
-} from "@faceit/lib/redux/slices/feed/slice";
+  selectFeedData,
+} from "@faceit/lib/redux/slices/feed";
 import io from "socket.io-client";
+
 const socket = io("https://localhost:3000");
 
 export const Feed: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const currentPage = useAppSelector((state) => state.feed.currentPage);
-  const feedPosts = useAppSelector((state) => state.feed.posts);
-  const hasMorePosts = useAppSelector((state) => state.feed.hasMorePosts);
+  const { currentPage, feedPosts, hasMorePosts } =
+    useAppSelector(selectFeedData);
 
   const [highlightedPostId, setHighlightedPostId] = useState<number | null>(
     null
@@ -31,24 +32,25 @@ export const Feed: React.FC = () => {
   });
 
   useEffect(() => {
-    socket.on("newPost", (newPost) => {
-      if (users) {
+    if (users) {
+      socket.on("newPost", (newPost) => {
         dispatch(
           setPostsAndUsers({
             posts: [newPost, ...feedPosts],
             users,
           })
         );
-      }
-      setHighlightedPostId(newPost.id);
-      setTimeout(() => {
-        setHighlightedPostId(null);
-      }, 3000); // Highlight for 5 seconds
-    });
 
-    return () => {
-      socket.off("newPost");
-    };
+        setHighlightedPostId(newPost.id);
+        setTimeout(() => {
+          setHighlightedPostId(null);
+        }, 3000);
+      });
+
+      return () => {
+        socket.off("newPost");
+      };
+    }
   }, [dispatch, feedPosts, users]);
 
   // NOTE: this logic to maintain the scroll position shouldn't be necessary
@@ -81,7 +83,7 @@ export const Feed: React.FC = () => {
     [isLoading, isFetching, hasMorePosts, currentPage, dispatch]
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading || !users) return <p>Loading...</p>;
   if (error) return <p>Error loading posts</p>;
 
   return (

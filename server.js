@@ -14,8 +14,6 @@ const httpsOptions = {
   cert: fs.readFileSync(path.join(__dirname, "localhost.pem")),
 };
 
-let postCounter = 1;
-
 app.prepare().then(() => {
   const server = createServer(httpsOptions, (req, res) => {
     const parsedUrl = parse(req.url, true);
@@ -25,27 +23,25 @@ app.prepare().then(() => {
   const io = new Server(server);
 
   io.on("connection", (socket) => {
+    console.log(socket.id);
     console.log("Client connected");
 
-    // Broadcast a new post to all clients
+    // Broadcast a hardcoded post to all clients
     const broadcastNewPost = () => {
-      const timestamp = new Date().toISOString();
       const newPost = {
         id: new Date().getTime(),
-        title: `WEBSOCKET POST ${postCounter}`,
-        body: `This is post number ${postCounter} created at ${timestamp}`,
-        userId: Math.floor(Math.random() * 10) + 1,
+        title: "WEBSOCKET POST",
+        body: "WEBSOCKET POST BODY",
+        userId: 7,
       };
       io.emit("newPost", newPost);
-      postCounter += 1;
     };
 
-    // Simulate a new post every 10 seconds
-    const interval = setInterval(broadcastNewPost, 10000);
+    // Simulate a new post once after 10 seconds
+    setTimeout(broadcastNewPost, 10000);
 
     socket.on("disconnect", () => {
       console.log("Client disconnected");
-      clearInterval(interval);
     });
   });
 
