@@ -1,12 +1,10 @@
 import React from "react";
-import { screen, waitFor } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import { Feed } from "./Feed";
 import { renderWithProviders } from "@faceit/lib/redux/test-utils";
 import { mockFeedPosts, mockUsers } from "@faceit/lib/redux/api/feed";
-import userEvent from "@testing-library/user-event";
 
-// Mock socket.io-client
 jest.mock("socket.io-client", () => {
   const mockSocket = {
     on: jest.fn(),
