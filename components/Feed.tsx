@@ -53,7 +53,7 @@ export const Feed: React.FC = () => {
 
   // NOTE: this logic to maintain the scroll position shouldn't be necessary
   // <Link scroll={false} /> should be enough to prevent the scroll position from resetting
-  // However, there is a bug in Next.js that causes the scroll position to reset
+  // Perhaps this is a bug in Next.js or I'm missing something
   const handlePostClick = () => {
     sessionStorage.setItem("scrollPosition", window.scrollY.toString());
   };
