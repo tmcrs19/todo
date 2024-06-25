@@ -22,37 +22,25 @@ app.prepare().then(() => {
 
   const io = new Server(server);
 
-  let postEmitted = false;
-  let newPost = null;
+  io.on("connection", (socket) => {
+    console.log("Client connected:", socket.id);
 
-  const broadcastNewPost = () => {
-    if (!postEmitted) {
-      newPost = {
+    const broadcastNewPost = () => {
+      const newPost = {
         id: new Date().getTime(),
         title: "WEBSOCKET POST",
         body: "WEBSOCKET POST BODY",
         userId: 7,
       };
       io.emit("newPost", newPost);
-      postEmitted = true;
-    }
-  };
+    };
 
-  io.on("connection", (socket) => {
-    console.log(socket.id);
-    console.log("Client connected");
-
-    if (postEmitted && newPost) {
-      socket.emit("newPost", newPost);
-    }
+    setTimeout(broadcastNewPost, 10000);
 
     socket.on("disconnect", () => {
-      console.log("Client disconnected");
+      console.log("Client disconnected:", socket.id);
     });
   });
-
-  // Emit the post once after 10 seconds
-  setTimeout(broadcastNewPost, 10000);
 
   server.listen(3000, (err) => {
     if (err) throw err;

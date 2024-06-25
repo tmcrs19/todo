@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@faceit/components/StoreProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { WebVitals } from "./_components/web-vitals";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StoreProvider>{children}</StoreProvider>
         <SpeedInsights />
+        <WebVitals />
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
   );
