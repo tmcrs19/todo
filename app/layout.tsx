@@ -8,14 +8,7 @@ import { WebVitals } from "./_components/web-vitals";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Faceit",
-  icons: {
-    icon: [
-      { url: "/efg-favicon-150x150.png", sizes: "150x150" },
-      { url: "/efg-favicon-300x300.png", sizes: "300x300" },
-    ],
-  },
-  manifest: "/manifest.json",
+  title: "Todo",
 };
 
 export default function RootLayout({

@@ -1,21 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { baseApi } from "./api/baseApi";
-import { feedSlice } from "./slices/feed/slice";
-import { listenerMiddleware } from "./listenerMiddleware";
+import { todoSlice } from "./slices/todo/slice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      [feedSlice.name]: feedSlice.reducer,
-      [baseApi.reducerPath]: baseApi.reducer,
+      [todoSlice.name]: todoSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         immutableCheck: false,
         serializableCheck: false,
-      })
-        .prepend(listenerMiddleware.middleware)
-        .concat(baseApi.middleware),
+      }),
     devTools: process.env.NODE_ENV !== "production",
   });
 };
